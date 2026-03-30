@@ -1,5 +1,9 @@
 # @veroq/cli
 
+[![npm](https://img.shields.io/npm/v/@veroq/cli?color=2EE89A&label=npm)](https://www.npmjs.com/package/@veroq/cli)
+[![Downloads](https://img.shields.io/npm/dm/@veroq/cli?color=2EE89A)](https://www.npmjs.com/package/@veroq/cli)
+[![License](https://img.shields.io/badge/license-MIT-2EE89A)](LICENSE)
+
 Verified intelligence from your terminal. The truth protocol for agentic AI.
 
 ```bash
