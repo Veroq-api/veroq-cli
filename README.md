@@ -1,9 +1,5 @@
 # @veroq/cli
 
-[![npm](https://img.shields.io/npm/v/@veroq/cli?color=2EE89A&label=npm)](https://www.npmjs.com/package/@veroq/cli)
-[![Downloads](https://img.shields.io/npm/dm/@veroq/cli?color=2EE89A)](https://www.npmjs.com/package/@veroq/cli)
-[![License](https://img.shields.io/badge/license-MIT-2EE89A)](LICENSE)
-
 Verified intelligence from your terminal. The truth protocol for agentic AI.
 
 ```bash
@@ -53,7 +49,7 @@ veroq ask "NVDA earnings" --human
 
 ## Auth
 
-Get a free API key at [veroq.dev/pricing](https://veroq.ai/pricing) (1,000 credits/month free).
+Get a free API key at [veroq.dev/pricing](https://veroq.dev/pricing) (1,000 credits/month free).
 
 ```bash
 export VEROQ_API_KEY=pr_live_xxx
@@ -83,7 +79,7 @@ npm install -g @veroq/cli
 
 ## Links
 
-- [VEROQ](https://veroq.ai) — Interactive demos
-- [API Reference](https://veroq.ai/api-reference) — 300+ endpoints
-- [Python SDK](https://github.com/Veroq-api/veroq-python)
-- [TypeScript SDK](https://github.com/Veroq-api/veroq-js)
+- [Documentation](https://veroq.dev/docs)
+- [Interactive Demo](https://veroq.dev/ask)
+- [Python SDK](https://pypi.org/project/polaris-news/)
+- [TypeScript SDK](https://www.npmjs.com/package/polaris-news-api)

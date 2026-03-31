@@ -36,6 +36,7 @@ const command = args[0]?.toLowerCase();
 const jsonMode = !args.includes("--human");
 const humanMode = args.includes("--human");
 const verbose = args.includes("--verbose") || args.includes("-v");
+const lineageMode = args.includes("--lineage");
 const cleanArgs = args.filter(a => !a.startsWith("--") && !a.startsWith("-v"));
 
 if (!command || command === "help" || command === "--help" || command === "-h") {
@@ -116,6 +117,25 @@ function output(data, humanFormatter) {
   }
 }
 
+// ── Decision Lineage ──
+
+function computeLineage(toolName, input, output) {
+  const start = performance.now();
+  const question = String(input.question || input.claim || '');
+  const highStakes = /\bshould\s+(i|we)\s+(buy|sell|trade|invest)\b/i.test(question);
+  const tradeScore = output?.trade_signal?.score || 0;
+  const escalated = tradeScore > 80;
+  const decision = escalated ? 'escalate' : highStakes ? 'review' : 'allow';
+  const durationMs = Math.round(performance.now() - start);
+  return { decision, highStakes, escalated, rulesEvaluated: 2, durationMs };
+}
+
+function printLineage(lineage) {
+  console.log();
+  console.log(`Decision: ${lineage.decision} | High-stakes: ${lineage.highStakes} | Escalated: ${lineage.escalated}`);
+  console.log(`Rules evaluated: ${lineage.rulesEvaluated} | Duration: ${lineage.durationMs}ms`);
+}
+
 // ── Command Implementations ──
 
 async function cmdAsk(args) {
@@ -139,6 +159,10 @@ async function cmdAsk(args) {
       console.log(`\nFollow up: ${d.follow_ups.join(" | ")}`);
     }
   });
+
+  if (lineageMode) {
+    printLineage(computeLineage('ask', { question }, data));
+  }
 }
 
 async function cmdPrice(args) {
@@ -291,6 +315,10 @@ async function cmdVerify(args) {
     if (d.summary) console.log(`  ${d.summary}\n`);
     console.log(`  Sources analyzed: ${d.sources_analyzed} | Briefs matched: ${d.briefs_matched}`);
   });
+
+  if (lineageMode) {
+    printLineage(computeLineage('verify', { claim }, data));
+  }
 }
 
 async function cmdFull(args) {
@@ -333,7 +361,7 @@ VEROQ CLI — Verified intelligence from your terminal.
 The truth protocol for agentic AI. Starting with finance.
 
 USAGE
-  veroq <command> [args] [--human] [--json] [--verbose]
+  veroq <command> [args] [--human] [--json] [--verbose] [--lineage]
 
 COMMANDS
   ask <question>              Ask any financial question (natural language)
@@ -352,6 +380,7 @@ COMMANDS
 
 OUTPUT
   JSON by default (agent-first). Use --human for formatted output.
+  Use --lineage with ask/verify to show enterprise decision lineage.
 
 AUTH
   export VEROQ_API_KEY=pr_live_xxx
